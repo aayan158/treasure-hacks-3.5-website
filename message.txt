@@ -1,0 +1,73 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract WritingPlatform {
+    
+    // Define the Work struct
+    struct Work {
+        uint256 id;
+        address author;
+        string genre;
+        string style;
+        string content;
+        string enhancedContent;
+        bool isPublic;
+        uint256 price;
+        uint256 dateSubmitted;
+        uint256 datePublished;
+    }
+    
+    // Define the events
+    event WorkSubmitted(uint256 indexed id, address author, string genre, string style, string content, uint256 price, uint256 dateSubmitted);
+    event WorkEnhanced(uint256 indexed id, string enhancedContent);
+    event WorkPublished(uint256 indexed id, uint256 datePublished);
+    event WorkPurchased(uint256 indexed id, address buyer, uint256 price);
+    
+    // Define the state variables
+    mapping (uint256 => Work) public works;
+    uint256 public numWorks = 0;
+    address payable public platformOwner;
+    mapping (address => uint256) public balances;
+    
+    // Constructor function
+    constructor() {
+        platformOwner = payable(msg.sender);
+    }
+    
+    // Submit a new work
+    function submitWork(string memory genre, string memory style, string memory content, uint256 price, bool isPublic) public {
+        numWorks++;
+        works[numWorks] = Work(numWorks, msg.sender, genre, style, content, "", isPublic, price, block.timestamp, 0);
+        emit WorkSubmitted(numWorks, msg.sender, genre, style, content, price, block.timestamp);
+    }
+    
+    // Enhance a work
+    function enhanceWork(uint256 id, string memory enhancedContent) public {
+        require(msg.sender == works[id].author, "You are not the author of this work.");
+        works[id].enhancedContent = enhancedContent;
+        emit WorkEnhanced(id, enhancedContent);
+    }
+    
+    // Publish a work
+    function publishWork(uint256 id) public {
+        require(msg.sender == platformOwner, "Only the platform owner can publish works.");
+        require(works[id].datePublished == 0, "This work has already been published.");
+        works[id].datePublished = block.timestamp;
+        emit WorkPublished(id, block.timestamp);
+    }
+    
+    // Purchase a work
+    function purchaseWork(uint256 id) public payable {
+        require(works[id].isPublic == true, "This work is not public.");
+        require(msg.value == works[id].price, "Incorrect price.");
+        require(works[id].datePublished > 0, "This work has not been published yet.");
+        balances[works[id].author] += msg.value;
+        emit WorkPurchased(id, msg.sender, msg.value);
+    }
+    
+    // Withdraw funds from the contract
+    function withdrawFunds() public {
+        require(msg.sender == platformOwner, "Only the platform owner can withdraw funds.");
+        platformOwner.transfer(address(this).balance);
+    }
+}
