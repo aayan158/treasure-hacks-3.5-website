@@ -436,10 +436,10 @@ const openai = require('openai');
 const twilio = require('twilio');
 
 // initialize OpenAI API client
-const openaiClient = new openai.OpenAI(process.env.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);
+const openaiClient = new openai.OpenAI(process.env.);
 
 // initialize Twilio API client
-const twilioClient = new twilio(process.env.ACb72aee305173ceb5f91e586307758224, process.env.3e4310e647188768ee611625a8a24b4e);
+const twilioClient = new twilio(process.env., process.env.);
 
 // get the summary of a given text using OpenAI
 async function getSummary(text) {
@@ -457,7 +457,7 @@ async function getSummary(text) {
 
 // send a text message using Twilio
 async function sendTextMessage(toNumber, message) {
-  const fromNumber = process.env.+18885217093;
+  const fromNumber = process.env.;
   await twilioClient.messages.create({
     to: toNumber,
     from: fromNumber,
@@ -484,17 +484,17 @@ async function handleSubmit(event) {
   document.getElementById('phoneNumber').value = '';
 } 
 // Initialize Twilio client
-const accountSid = 'ACb6e1a0580af8e4fb969768ca9bde059a';
-const authToken = 'ce2663484a2b01f85beb6d735b48e440';
+const accountSid = '';
+const authToken = '';
 const client = require('twilio')(accountSid, authToken);
 
 // Initialize OpenAI client
 const openai = require('openai');
-const openaiApiKey = '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';
+const openaiApiKey = '';
 openai.apiKey = openaiApiKey;
 
 // Summarize and send text message
-async function summarizeAndSendText(+19254939513, content) {
+async function summarizeAndSendText(+, content) {
   try {
     // Use OpenAI to summarize text
     const prompt = `summarize the following text: "${content}"`;
@@ -511,8 +511,8 @@ async function summarizeAndSendText(+19254939513, content) {
     // Use Twilio to send text message
     const message = await client.messages.create({
       body: summary,
-      from: '+18885217093',
-      to: +19254939513
+      from: '+',
+      to: +
     });
     console.log('Message sent:', message.sid);
     return true;
@@ -521,8 +521,8 @@ async function summarizeAndSendText(+19254939513, content) {
     return false;
   }
 }
-const accountSid = 'ACb72aee305173ceb5f91e586307758224';
-const authToken = '3e4310e647188768ee611625a8a24b4e';
+const accountSid = '';
+const authToken = '';
 const client = require('twilio')(accountSid, authToken);
 
 // Send text message
@@ -530,7 +530,7 @@ function sendTextMessage(number, message) {
   client.messages
     .create({
       body: message,
-      from: '+18885217093',
+      from: '+',
       to: number
     })
     .then(message => console.log(message.sid))
@@ -552,9 +552,9 @@ form.addEventListener('submit', (event) => {
 });
 
 // Twilio Credentials
-const accountSid = 'ACb72aee305173ceb5f91e586307758224';
-const authToken = '3e4310e647188768ee611625a8a24b4e';
-const client = require('twilio')('ACb72aee305173ceb5f91e586307758224', '3e4310e647188768ee611625a8a24b4e');
+const accountSid = 'cred';
+const authToken = 'cred';
+const client = require('twilio')('cred', 'cred');
 
 // Send text message with user input
 function sendText() {
@@ -567,8 +567,8 @@ function sendText() {
   client.messages
     .create({
       body: `Name: ${name}\nGenre: ${genre}\nStyle: ${style}\nContent: ${content}`,
-      from: '+18885217093',
-      to: '+19254939'
+      from: '+Number',
+      to: '+Number'
     })
     .then(message => {
       console.log(message.sid);
